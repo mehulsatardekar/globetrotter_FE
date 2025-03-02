@@ -1,40 +1,79 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+<div align="center">
+  
+# Globetrotter A travel Quiz app 
+  
+ Have a look at the live demo of [Globetrotter](https://globetrotter-fe-psi.vercel.app/).
+ 
+ 
+</div>
 
-## Getting Started
 
-First, run the development server:
+## 📱 Game Flow
+
+1. Enter username to start
+2. Receive clues about a city
+3. Choose from options and get immediate feedback about selection
+4. Get immediate feedback and fun facts
+5. Share your score and challenge friends
+6. WhatsApp and share link support 
+
+## Run Locally
+
+Clone the project
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+  git clone https://github.com/mehulsatardekar/globetrotter_FE.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Go to the project directory
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+```bash
+  cd globetrotter_FE
+```
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+Install dependencies
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+```bash
+  npm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Start the server
 
-## Learn More
+```bash
+  npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+#### Note
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+This application uses the Nextjs Framework.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+  npm run dev
+```
 
-## Deploy on Vercel
+Tech Specification and Tools
+For BE: We have used Express and supabase for the database 
+For FE: Nextjs, 
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+Add .env file to the root folder
+VITE_SUPABASE_URL= your Supabase url
+VITE_SUPABASE_ANON_KEY= your Supabase anon key
+```
+[How to initialize & add keys to the app in supabase](https://supabase.com/docs/reference/javascript/initializing)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+
+
+## Tech Stack
+
+- **Client:** React-18, React RouterV6, Typescript, Formik Library (Client side Form validation), [Framer UI](https://framer-ui.netlify.app/docs/index.html) 
+- **Backend-(DB):** Supabase  (postgres-sql), express
+- **Cloud & Infra:** Vercel for Frontend render for backend deployment
+
+## Database Schema
+![globetrotter-db-schema](https://github.com/user-attachments/assets/09b42a14-97cf-4fe4-9bfb-5406e0d279df)
+
+
+
+
+
