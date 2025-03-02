@@ -1,0 +1,148 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: #1f2937;
+  padding: 2rem;
+  border-radius: 1rem;
+  width: 90%;
+  max-width: 400px;
+  position: relative;
+  text-align: center;
+}
+
+.closeButton {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: #9ca3af;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.closeButton:hover {
+  color: white;
+}
+
+.modal h3 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.scoreText {
+  color: #9ca3af;
+  margin-bottom: 1.5rem;
+}
+
+.previewCard {
+  background: #3b82f6;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  margin: 1.5rem 0;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.logo {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.previewCard h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.previewCard::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0) 70%
+  );
+  pointer-events: none;
+}
+
+.scorePreview {
+  font-size: 1.25rem;
+  margin: 1rem 0;
+  font-weight: 600;
+}
+
+.callToAction {
+  font-weight: 700;
+  margin: 0.75rem 0;
+  font-size: 1.125rem;
+}
+
+.clickText {
+  font-size: 0.875rem;
+  opacity: 0.9;
+  margin-top: 1rem;
+}
+
+.downloadButton {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 1rem;
+  background: #6366f1;
+  color: white;
+}
+
+.downloadButton:hover {
+  background: #4f46e5;
+}
+
+.shareButton,
+.copyButton {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 1rem;
+}
+
+.shareButton {
+  background: #25d366;
+  color: white;
+}
+
+.shareButton:hover {
+  background: #128c7e;
+}
+
+.copyButton {
+  background: #4b5563;
+  color: white;
+}
+
+.copyButton:hover {
+  background: #374151;
+}

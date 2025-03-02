@@ -1,0 +1,36 @@
+.shareContainer {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.shareButton,
+.whatsappButton {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+  font-size: 0.875rem;
+}
+
+.shareButton {
+  background: #4b5563;
+  color: white;
+}
+
+.shareButton:hover {
+  background: #374151;
+  transform: translateY(-1px);
+}
+
+.whatsappButton {
+  background: #25d366;
+  color: white;
+}
+
+.whatsappButton:hover {
+  background: #128c7e;
+  transform: translateY(-1px);
+}
