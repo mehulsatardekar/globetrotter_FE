@@ -7,6 +7,7 @@
  
 </div>
 
+Note: Please don't abuse the API's request since I have deployed the backend on Render (free service), and it takes a lot of time to process the request. You might face a bit latency while consuming the requests, Supabase's api latency is very low and good in terms of Render 
 
 ## 📱 Game Flow
 
