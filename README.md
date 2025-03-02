@@ -9,6 +9,9 @@
 
 Note: Please don't abuse the API's request since I have deployed the backend on Render (free service), and it takes a lot of time to process the request. You might face a bit latency while consuming the requests, Supabase's api latency is very low and good in terms of Render 
 
+
+
+
 ## 📱 Game Flow
 
 1. Enter username to start
@@ -17,6 +20,7 @@ Note: Please don't abuse the API's request since I have deployed the backend on 
 4. Get immediate feedback and fun facts
 5. Share your score and challenge friends
 6. WhatsApp and share link support 
+
 
 ## Run Locally
 
@@ -64,6 +68,8 @@ VITE_SUPABASE_ANON_KEY= your Supabase anon key
 [How to initialize & add keys to the app in supabase](https://supabase.com/docs/reference/javascript/initializing)
 
 
+### FE Repo : [Frontend](https://github.com/mehulsatardekar/globetrotter_FE)
+### BE Repo : [Backend](https://github.com/mehulsatardekar/globetrotter_BE)
 
 ## Tech Stack
 
