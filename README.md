@@ -66,7 +66,7 @@ VITE_SUPABASE_ANON_KEY= your Supabase anon key
 
 ## Tech Stack
 
-- **Client:** React-18, React RouterV6, Typescript, Formik Library (Client side Form validation), [Framer UI](https://framer-ui.netlify.app/docs/index.html) 
+- **Client:** Nextjs, React, axios, react-confetti, typescript
 - **Backend-(DB):** Supabase  (postgres-sql), express
 - **Cloud & Infra:** Vercel for Frontend render for backend deployment
 
