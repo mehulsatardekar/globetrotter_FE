@@ -41,11 +41,7 @@ const Game = ({
   // Get username from either prop or game state
   const username = playerName || gameState?.user?.username;
 
-  console.log("Game data:", {
-    playerName,
-    gameStateUsername: gameState?.user?.username,
-    finalUsername: username,
-  });
+
 
   // First, update how we get summaryData
   const summaryData =
@@ -174,8 +170,6 @@ const Game = ({
     setShowConfetti(false);
     nextQuestion();
   };
-
-  console.log({ playerName });
 
   return (
     <div className={styles.container}>

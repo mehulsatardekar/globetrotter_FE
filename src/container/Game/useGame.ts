@@ -48,21 +48,14 @@ const useGame = (sessionId: string) => {
       setIsLoading(true);
       setError(null);
       const { data } = await api.get(`/games/session/${sessionId}`);
-      console.log("Game data received:", {
-        correct_answers: data.correct_answers,
-        total_attempts: data.rounds?.length,
-        rounds: data.rounds,
-      });
+      
       setGameState(data);
     } catch (error) {
       const axiosError = error as AxiosError<{
         error: string;
         gameState?: GameState;
       }>;
-      console.error(
-        "Failed to fetch game session:",
-        axiosError.response?.data || axiosError
-      );
+     
       if (
         axiosError.response?.status === 404 &&
         axiosError.response?.data?.gameState
@@ -108,7 +101,6 @@ const useGame = (sessionId: string) => {
       const { data } = await api.post("/games/start", {
         userId: gameState?.user?.id,
       });
-      // Use Next.js router instead of window.location
       router.push(`/game/${data.id}`);
     } catch (error) {
       console.error("Failed to start new game:", error);

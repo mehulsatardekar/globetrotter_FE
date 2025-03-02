@@ -42,9 +42,7 @@ const SharedGame = () => {
 
   const fetchSharedGame = async () => {
     try {
-      console.log("Fetching shared game with code:", code);
       const { data } = await api.get(`/games/share/${code}`);
-      console.log("Received game data:", data);
       setGameData(data);
     } catch (error: unknown) {
       const axiosError = error as AxiosError<{ error: string }>;
