@@ -2,7 +2,8 @@
   
 # Globetrotter A travel Quiz app 
   
- Have a look at the live demo of [Globetrotter](https://globetrotter-fe-psi.vercel.app/).
+ Have a look at the live demo of [Globetrotter](https://globetrotter-fe-psi.vercel.app/). live walkthrough of a webapp [live demo](https://www.loom.com/share/f1770f75d1b34f3d9f131c18efdd305e?sid=d14606eb-89c5-4169-b0cd-e2d251994c98
+)
  
  
 </div>
