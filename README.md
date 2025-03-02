@@ -62,8 +62,7 @@ For FE: Nextjs,
 
 ```bash
 Add .env file to the root folder
-VITE_SUPABASE_URL= your Supabase url
-VITE_SUPABASE_ANON_KEY= your Supabase anon key
+NEXT_PUBLIC_API_URL=http://localhost:3001/api  # For development 
 ```
 [How to initialize & add keys to the app in supabase](https://supabase.com/docs/reference/javascript/initializing)
 
