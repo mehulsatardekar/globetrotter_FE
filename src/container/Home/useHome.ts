@@ -1,6 +1,7 @@
 import api from "@/src/lib/axios";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 
 const useHome = () => {
   const [username, setUsername] = useState("");
@@ -20,10 +21,12 @@ const useHome = () => {
       if (available) {
         // Register new user
         const { data } = await api.post("/users/register", { username });
+        toast.success(`Welcome to Globetrotter ${username}`);
         user = data;
       } else {
         // Use existing user
         user = { id: userId };
+        toast.success("Found you.. continuing with your existing account");
       }
 
       // Start game for either new or existing user
@@ -34,6 +37,7 @@ const useHome = () => {
       router.push(`/game/${game.id}`);
     } catch (error) {
       console.error("Failed to start game:", error);
+      toast.error("Failed to start game. Please try again.");
     } finally {
       setIsUserCreationLoading(false);
     }

@@ -1,7 +1,6 @@
 import React from "react";
 import useHome from "./useHome";
 import styles from "./home.module.css";
-import Image from "next/image";
 
 const Home = () => {
   const { stats, actions } = useHome();
@@ -36,16 +35,7 @@ const Home = () => {
           </button>
         </div>
       </div>
-      <div className={styles.globe}>
-        <Image
-          src="/globe.svg"
-          alt="Rotating Globe"
-          width={400}
-          height={400}
-          priority
-          className={styles.globeImage}
-        />
-      </div>
+      <div className={styles.globe}></div>
     </>
   );
 };
