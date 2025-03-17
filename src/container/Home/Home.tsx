@@ -1,6 +1,7 @@
 import React from "react";
 import useHome from "./useHome";
 import styles from "./home.module.css";
+import Image from "next/image";
 
 const Home = () => {
   const { stats, actions } = useHome();
@@ -36,7 +37,14 @@ const Home = () => {
         </div>
       </div>
       <div className={styles.globe}>
-        {/* Add a globe animation or image here */}
+        <Image
+          src="/globe.svg"
+          alt="Rotating Globe"
+          width={400}
+          height={400}
+          priority
+          className={styles.globeImage}
+        />
       </div>
     </>
   );
