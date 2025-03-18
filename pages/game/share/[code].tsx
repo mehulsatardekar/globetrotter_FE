@@ -34,12 +34,6 @@ const SharedGame = () => {
   const [showUsernameModal, setShowUsernameModal] = useState(false);
   const [playerName, setPlayerName] = useState<string>("");
 
-  useEffect(() => {
-    if (code) {
-      fetchSharedGame();
-    }
-  }, [code]);
-
   const fetchSharedGame = async () => {
     try {
       const { data } = await api.get(`/games/share/${code}`);
@@ -104,6 +98,12 @@ const SharedGame = () => {
     }
   };
 
+  useEffect(() => {
+    if (code) {
+      fetchSharedGame();
+    }
+  }, [code]);
+
   if (loading) {
     return <div className={styles.loading}>Loading shared game...</div>;
   }
@@ -148,10 +148,11 @@ const SharedGame = () => {
             <div className={styles.statItem}>
               <h3>Accuracy</h3>
               <p className={styles.value}>
-                {Math.round(
-                  (gameData.correct_answers / gameData.rounds.length) * 100
-                )}
-                %
+                {gameData.rounds.length > 0
+                  ? `${Math.round(
+                      (gameData.correct_answers / gameData.rounds.length) * 100
+                    )}%`
+                  : "0%"}
               </p>
             </div>
           </div>
