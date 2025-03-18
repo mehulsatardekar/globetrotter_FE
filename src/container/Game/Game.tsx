@@ -1,27 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import dynamic from "next/dynamic";
 import useGame from "./useGame";
 import styles from "./game.module.css";
 import ShareModal from "@/src/components/ShareModal/ShareModal";
 import ChallengeBanner from "@/src/components/ChallengeBanner/ChallengeBanner";
-import { GameState } from "./useGame"; // Import the GameState type
+import { GameProps, GameStateError } from "./types";
+import CompleteGameBoard from "@/src/components/CompeleteGameBoard/CompleteGameBoard";
 
 // Dynamically import the confetti component with ssr disabled
 const ConfettiCanvas = dynamic(() => import("react-confetti-canvas"), {
   ssr: false, // Disable server-side rendering for this component
 });
-
-interface GameProps {
-  sessionId: string;
-  challengedBy?: string;
-  challengeScore?: number;
-  playerName?: string;
-}
-
-interface GameStateError {
-  gameState: GameState;
-  error: string;
-}
 
 const Game = ({
   sessionId,
@@ -30,18 +19,28 @@ const Game = ({
   playerName,
 }: GameProps) => {
   const { stats, actions } = useGame(sessionId);
-  const { gameState, isLoading, error, selectedAnswer, isAnswerCorrect } =
-    stats;
-  const { submitAnswer, nextQuestion, startNewGame } = actions;
-  const [showConfetti, setShowConfetti] = useState(false);
-  const [isFading, setIsFading] = useState(false);
-  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
-  const [showBanner, setShowBanner] = useState(true);
+  const {
+    gameState,
+    isLoading,
+    error,
+    selectedAnswer,
+    isAnswerCorrect,
+    showConfetti,
+    isFading,
+    isShareModalOpen,
+    showBanner,
+  } = stats;
+  const {
+    handleNextQuestion,
+    startNewGame,
+    handleShareModalOpen,
+    handleShareModalClose,
+    handleAnswer,
+    handleShowBannerClose,
+  } = actions;
 
   // Get username from either prop or game state
   const username = playerName || gameState?.user?.username;
-
-
 
   // First, update how we get summaryData
   const summaryData =
@@ -57,7 +56,12 @@ const Game = ({
     : "";
 
   if (isLoading) {
-    return <div className={styles.loading}>Loading game...</div>;
+    return (
+      <div className={styles.container}>
+        <div className={styles.loading}>Loading game...</div>
+        <div className={styles.loadingSpinner}></div>
+      </div>
+    );
   }
 
   if (
@@ -66,66 +70,13 @@ const Game = ({
   ) {
     return (
       <div className={styles.container}>
-        <div className={styles.questionCard}>
-          <div className={styles.gameComplete}>
-            <h2>🎯 Game Complete!</h2>
-            <div className={styles.finalScore}>
-              <p className={styles.summaryText}>
-                Great job! You&apos;ve completed all questions.
-              </p>
-              <div className={styles.statsGrid}>
-                <div className={styles.statItem}>
-                  <h4>Correct Answers</h4>
-                  <p className={styles.statValue}>
-                    {summaryData.correct_answers || 0}
-                  </p>
-                </div>
-                <div className={styles.statItem}>
-                  <h4>Wrong Answers</h4>
-                  <p className={`${styles.statValue} ${styles.wrongValue}`}>
-                    {(summaryData.rounds?.length || 0) -
-                      (summaryData.correct_answers || 0)}
-                  </p>
-                </div>
-                <div className={styles.statItem}>
-                  <h4>Questions Attempted</h4>
-                  <p className={styles.statValue}>
-                    {summaryData.rounds?.length || 0}
-                  </p>
-                </div>
-                <div className={styles.statItem}>
-                  <h4>Accuracy</h4>
-                  <p className={styles.statValue}>
-                    {Math.round(
-                      ((summaryData.correct_answers || 0) /
-                        (summaryData.rounds?.length || 1)) *
-                        100
-                    )}
-                    %
-                  </p>
-                </div>
-                <div className={styles.statItem}>
-                  <h4>Total Score</h4>
-                  <p className={styles.statValue}>{summaryData.score || 0}</p>
-                </div>
-              </div>
-            </div>
-            <div className={styles.actions}>
-              <button onClick={startNewGame} className={styles.challengeButton}>
-                Start New Game
-              </button>
-              <button
-                onClick={() => setIsShareModalOpen(true)}
-                className={styles.challengeButton}
-              >
-                Challenge a Friend
-              </button>
-            </div>
-          </div>
-        </div>
+        <CompleteGameBoard
+          state={{ summaryData }}
+          actions={{ startNewGame, handleShareModalOpen }}
+        />
         <ShareModal
           isOpen={isShareModalOpen}
-          onClose={() => setIsShareModalOpen(false)}
+          onClose={handleShareModalClose}
           score={{
             correct: summaryData.correct_answers || 0,
             incorrect:
@@ -150,27 +101,6 @@ const Game = ({
   const { current_round } = gameState;
   const { destination } = current_round;
 
-  const handleAnswer = async (answer: string) => {
-    const isCorrect = await submitAnswer(answer);
-    if (isCorrect) {
-      setShowConfetti(true);
-      // Start fade out after 2.5 seconds
-      setTimeout(() => {
-        setIsFading(true);
-        // Remove component after fade animation
-        setTimeout(() => {
-          setShowConfetti(false);
-          setIsFading(false);
-        }, 500);
-      }, 2500);
-    }
-  };
-
-  const handleNextQuestion = () => {
-    setShowConfetti(false);
-    nextQuestion();
-  };
-
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -187,7 +117,7 @@ const Game = ({
         </div>
         <button
           className={styles.challengeButton}
-          onClick={() => setIsShareModalOpen(true)}
+          onClick={handleShareModalOpen}
         >
           Challenge a Friend
         </button>
@@ -197,7 +127,7 @@ const Game = ({
         <ChallengeBanner
           username={challengedBy}
           score={challengeScore}
-          onClose={() => setShowBanner(false)}
+          onClose={handleShowBannerClose}
         />
       )}
 
@@ -230,7 +160,8 @@ const Game = ({
           })}
         </div>
 
-        {selectedAnswer && (
+        {/* fixes the immediate wrong feedback*/}
+        {selectedAnswer && isAnswerCorrect !== null && (
           <>
             <div
               className={`${styles.feedback} ${
@@ -308,7 +239,7 @@ const Game = ({
 
       <ShareModal
         isOpen={isShareModalOpen}
-        onClose={() => setIsShareModalOpen(false)}
+        onClose={handleShareModalClose}
         score={{
           correct: gameState?.correct_answers || 0,
           incorrect:

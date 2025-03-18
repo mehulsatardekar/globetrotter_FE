@@ -2,38 +2,7 @@ import { useState, useEffect } from "react";
 import { AxiosError } from "axios";
 import api from "@/src/lib/axios";
 import { useRouter } from "next/router";
-
-export interface GameState {
-  id: string;
-  user: {
-    id: string;
-    username: string;
-  };
-  score: number;
-  correct_answers: number;
-  total_questions: number;
-  is_completed?: boolean;
-  current_round: {
-    id: string;
-    destination: {
-      id: string;
-      city: string;
-      country: string;
-      clues: string[];
-      fun_fact: string[];
-      trivia: string[];
-      options: string[];
-    };
-  };
-  rounds: Array<{
-    id: string;
-    is_correct: boolean;
-    time_taken: number;
-    user_answer: string;
-    destination_id: string;
-  }>;
-  share_code: string;
-}
+import { GameState } from "./types";
 
 const useGame = (sessionId: string) => {
   const router = useRouter();
@@ -42,20 +11,24 @@ const useGame = (sessionId: string) => {
   const [error, setError] = useState<string | null>(null);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean | null>(null);
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [isFading, setIsFading] = useState(false);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  const [showBanner, setShowBanner] = useState(true);
 
   const fetchGameSession = async () => {
     try {
       setIsLoading(true);
       setError(null);
       const { data } = await api.get(`/games/session/${sessionId}`);
-      
+
       setGameState(data);
     } catch (error) {
       const axiosError = error as AxiosError<{
         error: string;
         gameState?: GameState;
       }>;
-     
+
       if (
         axiosError.response?.status === 404 &&
         axiosError.response?.data?.gameState
@@ -107,6 +80,39 @@ const useGame = (sessionId: string) => {
     }
   };
 
+  const handleNextQuestion = () => {
+    setShowConfetti(false);
+    nextQuestion();
+  };
+
+  const handleShareModalOpen = () => {
+    setIsShareModalOpen(true);
+  };
+
+  const handleShareModalClose = () => {
+    setIsShareModalOpen(false);
+  };
+
+  const handleShowBannerClose = ()=>{
+    setShowBanner(false)
+  }
+
+  const handleAnswer = async (answer: string) => {
+    const isCorrect = await submitAnswer(answer);
+    if (isCorrect) {
+      setShowConfetti(true);
+      // Start fade out after 2.5 seconds
+      setTimeout(() => {
+        setIsFading(true);
+        // Remove component after fade animation
+        setTimeout(() => {
+          setShowConfetti(false);
+          setIsFading(false);
+        }, 500);
+      }, 2500);
+    }
+  };
+
   useEffect(() => {
     if (sessionId) {
       fetchGameSession();
@@ -114,8 +120,27 @@ const useGame = (sessionId: string) => {
   }, [sessionId]);
 
   return {
-    stats: { gameState, isLoading, error, selectedAnswer, isAnswerCorrect },
-    actions: { submitAnswer, nextQuestion, startNewGame },
+    stats: {
+      gameState,
+      isLoading,
+      error,
+      selectedAnswer,
+      isAnswerCorrect,
+      showConfetti,
+      isFading,
+      isShareModalOpen,
+      showBanner,
+    },
+    actions: {
+      submitAnswer,
+      nextQuestion,
+      startNewGame,
+      handleNextQuestion,
+      handleShareModalOpen,
+      handleShareModalClose,
+      handleAnswer,
+      handleShowBannerClose
+    },
   };
 };
 
