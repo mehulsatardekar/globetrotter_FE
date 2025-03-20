@@ -1,11 +1,13 @@
 import api from "@/src/lib/axios";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 
 const useHome = () => {
   const [username, setUsername] = useState("");
   const [isUserCreationLoading, setIsUserCreationLoading] = useState(false);
+  const [usersPreviousgameSessionData, setUserPreviousGameSessionData] = useState([]);
+
   const router = useRouter();
 
   const handleStart = async () => {
@@ -26,6 +28,7 @@ const useHome = () => {
       } else {
         // Use existing user
         user = { id: userId };
+        localStorage.setItem('userid',userId)
         toast.success("Found you.. continuing with your existing account");
       }
 
@@ -47,8 +50,28 @@ const useHome = () => {
     setUsername(event.target.value);
   };
 
+
+  const getUsersPreviousSession = async(userID:string)=>{
+    console.log(userID)
+
+   const data = await api.get(`/users/getUsersPreviousGameSession?userID=${userID}`);
+   console.log(data.data.userSesssions)
+
+    setUserPreviousGameSessionData(data.data.userSesssions);
+  }
+
+
+
+  useEffect(()=>{
+
+  const userID = localStorage.getItem("userid") ||'';
+   getUsersPreviousSession(userID);
+ 
+     
+   },[])
+
   return {
-    stats: { isUserCreationLoading, username },
+    stats: { isUserCreationLoading, username , usersPreviousgameSessionData},
     actions: { handleStart, handleUsernameChange },
   };
 };

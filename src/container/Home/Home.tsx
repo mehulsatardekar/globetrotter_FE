@@ -1,12 +1,14 @@
 import React from "react";
 import useHome from "./useHome";
 import styles from "./home.module.css";
+import Link from "next/link";
 
 const Home = () => {
   const { stats, actions } = useHome();
-  const { isUserCreationLoading, username } = stats || {};
+  const { isUserCreationLoading, username, usersPreviousgameSessionData = [] } = stats || {};
   const { handleStart, handleUsernameChange } = actions || {};
 
+  console.log(usersPreviousgameSessionData)
   return (
     <>
       <div className={styles.hero}>
@@ -35,7 +37,11 @@ const Home = () => {
           </button>
         </div>
       </div>
-      <div className={styles.globe}></div>
+      <div className={styles.globe}>
+        {
+          usersPreviousgameSessionData.map(session=> <div key={session?.id}><Link href={`game/${session.id}`}>{session.id}</Link></div>)
+        }
+      </div>
     </>
   );
 };
